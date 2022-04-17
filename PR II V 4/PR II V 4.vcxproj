@@ -146,7 +146,7 @@
     <ClInclude Include="Datum.h" />
     <ClInclude Include="Forum.h" />
     <ClInclude Include="funkcije.h" />
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="Kolekcija.h" />
     <ClInclude Include="Post.h" />
     <ClInclude Include="Sekcija.h" />
   </ItemGroup>

@@ -1,18 +1,20 @@
 #pragma once
 #include<iostream>
 #include"Post.h"
+#include "Kolekcija.h"
 
 class Sekcija {
 	char* _naziv;
 	char* _kratakOpis;
-	int _trenutnoPostova;
-	Post* _postovi[maxBrojPostova] = { nullptr };
+	//int _trenutnoPostova;
+	//Post* _postovi[maxBrojPostova] = { nullptr };
+	Kolekcija<Post*> _postovi;
 public:
 	//Z4.1 :: Dflt. ctor
 	Sekcija() {
 		_naziv = nullptr;
 		_kratakOpis = nullptr;
-		_trenutnoPostova = 0;
+		//_trenutnoPostova = 0;
 
 	}
 
@@ -20,7 +22,8 @@ public:
 	Sekcija(const char* naziv, const char* kratakOpis) {
 		_naziv = AlocirajIKopiraj(naziv);
 		_kratakOpis = AlocirajIKopiraj(kratakOpis);
-		_trenutnoPostova = 0;
+		//_trenutnoPostova = 0;
+		
 
 	}
 
@@ -28,11 +31,12 @@ public:
 	Sekcija(const Sekcija& obj) {
 		_naziv = AlocirajIKopiraj(obj._naziv);
 		_kratakOpis = AlocirajIKopiraj(obj._kratakOpis);
-		_trenutnoPostova = obj._trenutnoPostova;
-		for (int i = 0; i < _trenutnoPostova; i++)
-		{
-			_postovi[i] = new Post(*obj._postovi[i]);
-		}
+		//_trenutnoPostova = obj._trenutnoPostova;
+		//for (int i = 0; i < _trenutnoPostova; i++)
+		//{
+		//	_postovi[i] = new Post(*obj._postovi[i]);
+		//}
+		_postovi = obj._postovi;
 	}
 
 	//Z4.4 :: Move ctor
@@ -41,14 +45,15 @@ public:
 		obj._naziv = nullptr;
 		_kratakOpis = obj._kratakOpis;
 		obj._kratakOpis = nullptr;
-		_trenutnoPostova = obj._trenutnoPostova;
-		for (int i = 0; i < _trenutnoPostova; i++)
-		{
-			_postovi[i] = obj._postovi[i];
-			obj._postovi[i] = nullptr;
-		}
-		obj._trenutnoPostova = 0;
-
+		//_trenutnoPostova = obj._trenutnoPostova;
+		//for (int i = 0; i < _trenutnoPostova; i++)
+		//{
+		//	_postovi[i] = obj._postovi[i];
+		//	obj._postovi[i] = nullptr;
+		//}
+		//obj._trenutnoPostova = 0;
+		_postovi = obj._postovi;
+		obj._postovi.UkloniSve();
 	}
 
 	//Z4.5 :: operator dodjele
@@ -57,18 +62,20 @@ public:
 			return *this;
 		delete[] _naziv;
 		delete[] _kratakOpis;
-		for (int i = 0; i < _trenutnoPostova; i++)
-		{
-			delete _postovi[i];
-			_postovi[i] = nullptr;
-		}
+		_postovi.UkloniSve();
+		//for (int i = 0; i < _trenutnoPostova; i++)
+		//{
+		//	delete _postovi[i];
+		//	_postovi[i] = nullptr;
+		//}
 		_naziv = AlocirajIKopiraj(obj._naziv);
 		_kratakOpis = AlocirajIKopiraj(obj._kratakOpis);
-		_trenutnoPostova = obj._trenutnoPostova;
-		for (int i = 0; i < _trenutnoPostova; i++)
-		{
-			_postovi[i] = new Post(*obj._postovi[i]);
-		}
+		//_trenutnoPostova = obj._trenutnoPostova;
+		//for (int i = 0; i < _trenutnoPostova; i++)
+		//{
+		//	_postovi[i] = new Post(*obj._postovi[i]);
+		//}
+		_postovi = obj._postovi;
 		return *this;
 	}
 
@@ -76,9 +83,7 @@ public:
 	char* GetNaziv() const { return _naziv; }
 	char* GetKratakOpis() const { return _kratakOpis; }
 	Post GetPostAtI(int index) const {
-		index = Min(index, _trenutnoPostova + 1);
-		index = Max(index, 0);
-		return *_postovi[index];
+		 return *_postovi[index];
 	}
 
 	//Z4.7 :: Setteri
@@ -95,9 +100,9 @@ public:
 	//Dodati novi post u niz pokazivaca
 	//Onemoguciti dodavanje u slucaju da je popunjen niz pokazivaca
 	bool operator +=(Post& p) {
-		if (_trenutnoPostova == maxBrojPostova)
-			return false;
-		_postovi[_trenutnoPostova++] = new Post(p);
+		//if (_trenutnoPostova == maxBrojPostova)
+		//	return false;
+		_postovi += new Post(p);
 		return true;
 	}
 
@@ -105,11 +110,12 @@ public:
 	~Sekcija() {
 		delete[] _naziv; _naziv = nullptr;
 		delete[] _kratakOpis; _kratakOpis = nullptr;
-		for (int i = 0; i < _trenutnoPostova; i++)
-		{
-			delete _postovi[i];
-			_postovi[i] = nullptr;
-		}
+		//for (int i = 0; i < _trenutnoPostova; i++)
+		//{
+		//	delete _postovi[i];
+		//	_postovi[i] = nullptr;
+		//}
+		
 	}
 	friend ostream& operator << (ostream& COUT, const Sekcija& obj);
 };
@@ -118,7 +124,7 @@ ostream& operator << (ostream& COUT, const Sekcija& obj) {
 	COUT << "Naziv: " << obj._naziv << endl;
 	COUT << "Kratak opis: " << obj._kratakOpis << endl;
 	COUT << "Postovi: " << endl;
-	for (int i = 0; i < obj._trenutnoPostova; i++)
+	for (int i = 0; i < obj._postovi.GetBrojac(); i++)
 	{
 		COUT << *obj._postovi[i] << endl;
 	}
