@@ -1,9 +1,7 @@
 #pragma once
 #include <iostream>
 #include "funkcije.h"
-
 using namespace std;
-
 class Datum
 {
 private:

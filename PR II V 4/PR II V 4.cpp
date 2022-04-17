@@ -7,10 +7,6 @@
 #include "Forum.h"
 using namespace std;
 
-
-
-
-
 void Zadatak1() {
 	int broj = 56511;
 	cout << "Pretvaranje broja (56511) u str] : " << endl;
