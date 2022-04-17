@@ -6,36 +6,25 @@
 class Sekcija {
 	char* _naziv;
 	char* _kratakOpis;
-	//int _trenutnoPostova;
-	//Post* _postovi[maxBrojPostova] = { nullptr };
+	
 	Kolekcija<Post*> _postovi;
 public:
 	//Z4.1 :: Dflt. ctor
 	Sekcija() {
 		_naziv = nullptr;
 		_kratakOpis = nullptr;
-		//_trenutnoPostova = 0;
-
 	}
 
 	//Z4.2 :: User-def. ctor
 	Sekcija(const char* naziv, const char* kratakOpis) {
 		_naziv = AlocirajIKopiraj(naziv);
-		_kratakOpis = AlocirajIKopiraj(kratakOpis);
-		//_trenutnoPostova = 0;
-		
-
+		_kratakOpis = AlocirajIKopiraj(kratakOpis);		
 	}
 
 	//Z4.3 :: Copy ctor
 	Sekcija(const Sekcija& obj) {
 		_naziv = AlocirajIKopiraj(obj._naziv);
 		_kratakOpis = AlocirajIKopiraj(obj._kratakOpis);
-		//_trenutnoPostova = obj._trenutnoPostova;
-		//for (int i = 0; i < _trenutnoPostova; i++)
-		//{
-		//	_postovi[i] = new Post(*obj._postovi[i]);
-		//}
 		_postovi = obj._postovi;
 	}
 
@@ -45,13 +34,7 @@ public:
 		obj._naziv = nullptr;
 		_kratakOpis = obj._kratakOpis;
 		obj._kratakOpis = nullptr;
-		//_trenutnoPostova = obj._trenutnoPostova;
-		//for (int i = 0; i < _trenutnoPostova; i++)
-		//{
-		//	_postovi[i] = obj._postovi[i];
-		//	obj._postovi[i] = nullptr;
-		//}
-		//obj._trenutnoPostova = 0;
+		
 		_postovi = obj._postovi;
 		obj._postovi.UkloniSve();
 	}
@@ -63,18 +46,8 @@ public:
 		delete[] _naziv;
 		delete[] _kratakOpis;
 		_postovi.UkloniSve();
-		//for (int i = 0; i < _trenutnoPostova; i++)
-		//{
-		//	delete _postovi[i];
-		//	_postovi[i] = nullptr;
-		//}
 		_naziv = AlocirajIKopiraj(obj._naziv);
 		_kratakOpis = AlocirajIKopiraj(obj._kratakOpis);
-		//_trenutnoPostova = obj._trenutnoPostova;
-		//for (int i = 0; i < _trenutnoPostova; i++)
-		//{
-		//	_postovi[i] = new Post(*obj._postovi[i]);
-		//}
 		_postovi = obj._postovi;
 		return *this;
 	}
@@ -99,9 +72,7 @@ public:
 	//Z4.8 :: operator +=  
 	//Dodati novi post u niz pokazivaca
 	//Onemoguciti dodavanje u slucaju da je popunjen niz pokazivaca
-	bool operator +=(Post& p) {
-		//if (_trenutnoPostova == maxBrojPostova)
-		//	return false;
+	bool operator +=(Post& p) {		
 		_postovi += new Post(p);
 		return true;
 	}
@@ -110,12 +81,6 @@ public:
 	~Sekcija() {
 		delete[] _naziv; _naziv = nullptr;
 		delete[] _kratakOpis; _kratakOpis = nullptr;
-		//for (int i = 0; i < _trenutnoPostova; i++)
-		//{
-		//	delete _postovi[i];
-		//	_postovi[i] = nullptr;
-		//}
-		
 	}
 	friend ostream& operator << (ostream& COUT, const Sekcija& obj);
 };

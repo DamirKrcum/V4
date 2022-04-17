@@ -3,22 +3,18 @@
 #include"clan.h"
 #include"Kolekcija.h"
 class Forum {
-	char* _naziv;
-	
-	Kolekcija<Sekcija> _sekcije;
-	
+	char* _naziv;	
+	Kolekcija<Sekcija> _sekcije;	
 	Kolekcija<Clan> _clanovi;
 public:
 	//Z5.1 :: Dflt. ctor
 	Forum() {
 		_naziv = nullptr;
-		
 	}
 
 	//Z5.2 :: User-def. ctor
 	Forum(const char* naziv, int maxClanova) {
 		_naziv = AlocirajIKopiraj(naziv);
-		
 	}
 
 	//Z5.3 :: Copy ctor
@@ -26,8 +22,6 @@ public:
 		_naziv = AlocirajIKopiraj(obj._naziv);
 		_sekcije = obj._sekcije;		
 		_clanovi = obj._clanovi;
-		
-
 	}
 
 	//Z5.4 :: Move ctor
